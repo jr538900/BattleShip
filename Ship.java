@@ -1,58 +1,37 @@
-/**
- * 
- */
 
-/**
- * @author JKB
- *
- */
-//Ship.java
-//This object will represent the boats that both players are aiming to shoot.
-public class Ship
-{
-	//"xDim" determines the dimension along the x axis (of the board). 
-	private int xDim;
-	//"yDim" determines the dimension along the y axis (or the board).
-	private int yDim;
-	//"health" is determined by the number of hits the boat has taken.
-	private int health;
-	
-	//Boat constructor sets the dimensions and health.
-	public Ship(int x, int y)
-	{
-		xDim = x;
-		yDim = y;
-	   
-		//The boat's health will match the longer dimension of the boat
-		if(xDim == 1)
-			health = yDim;
-		else if(yDim == 1)
-		   health = xDim;
+public class Ship {
+	private int hp;
+	private String name;
+	private int x;
+	private int y;
+	public Ship(){}
+	public Ship(int x, int y){
+		this.x=x;
+		this.y=y;
+		hp=x*y;
 	}
-	
-	//Get methods
-	public int getXDim()
-	{
-		return xDim;
+	public int getHp() {
+		return hp;
 	}
-	public int getYDim()
-	{
-		return yDim;
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
-	public int getHealth()
-	{
-		return health;
+	public String getName() {
+		return name;
 	}
-	
-	//This method will be called when the ship is hit.
-	public void isHit()
-	{
-		health--;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	//This method determines whether the boat object is still in the game ("alive").
-	public boolean isAlive()
-	{
-		return health > 0;
-	}      
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
 }
