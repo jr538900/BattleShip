@@ -12,11 +12,12 @@ public class Board
 		width = w;		
 	}
 	
-	//Get methods will return the board dimensions.
+	//Get methods will return the board length.
 	public int getLength()
 	{
 		return length;
 	}
+	//This get method will return the board width.
 	public int getWidth()
 	{
 		return width;
