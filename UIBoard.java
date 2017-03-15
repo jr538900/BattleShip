@@ -17,22 +17,47 @@ public class UIBoard extends Board
 				grid[i][j] = 0;		
 	}
 	
-	//This method will take a user input and update the square accordingly.
-	public void playOn(int x, int y)
+	//This method will update the UI grid.
+	//This method will be called by the ShipBoard class.
+	public void update(int x, int y, boolean hit)
 	{
-		//Converts x positions to array indices.
-		x--;
-		y--;
-		//The x and y inputs need to be within the board boundaries.
-		if(x>=0 && x<grid.length && y>=0 && y<grid.length)
-		{
-			//The UI grid will be updated.
-			/*This method will have to be resolved.
-			if(ships.hitsShipOn(x, y))
-					grid[x][y] = 1;
-			else
-					grid[x][y] = -1;*/
-		}
+		if(hit)
+			grid[x][y] = 1;
+		else
+			grid[x][y] = -1;
+	}
+	
+	//This method will take in the user-defined corner coordinates, length, and direction.
+	public boolean isWithinBounds(int cornerX, int cornerY, int length, String dir)
+	{
+		boolean valid = false;
+		if(dir.equals("up"))
+			if(cornerX>=1 && cornerY>=1 && cornerX <= grid.length && cornerY + length <= grid[0].length)
+				valid = true;
 			
-	} 
+		else if(dir.equals("right"))
+			if(cornerX>=1 && cornerY>=1 && cornerX + length <= grid.length && cornerY <= grid[0].length)
+				valid = true;
+		return valid;
+	}
+	
+	//This will print out the board to the user.
+	public String toString()
+	{
+		String result = "";
+		for(int i=0; i<grid.length; i++)
+			for(int j=0; j<grid[i].length; j++)
+			{
+				//The square has been hit and has no ship.
+				if(grid[i][j] == -1)
+					result += "*";
+				//This square has been hit and contains a ship.
+				else if(grid[i][j] == 1)
+					result += "X";
+				//This square has been missed.
+				else
+					result += "_";
+			}
+		return result;
+	}
 }
