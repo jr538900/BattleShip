@@ -57,9 +57,9 @@ public class UIBoard extends Board
 	//The hit method will determine if the boat or grid has been hit
 	public boolean hit (int[] shoot, Ship ship){
 		if (shoot[0]==ship.getX() && shoot[1]==ship.getY()){
+			return true;
 			if (grid[shoot[0]][shoot[1]]==1)
 				return false;
-			return true;
 		}
 		else
 			return false;
