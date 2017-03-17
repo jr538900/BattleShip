@@ -6,7 +6,7 @@ public class ShipBoard extends Board {
 	//Constructor creates this ShipBoard object and sets the coordinates to false (empty of ships).
 	public ShipBoard()
 	{
-		super(10,10);
+		super(8,8);
 		coord = new boolean[getLength()][getWidth()];
 		for(int i=0; i<coord.length; i++)
 			for(int j=0; j<coord[i].length; j++)
