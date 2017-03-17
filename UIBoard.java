@@ -68,8 +68,10 @@ public class UIBoard extends Board
 	//This will print out the board to the user.
 	public String toString()
 	{
-		String result = "";
+		System.out.println("\t1 \t2 \t3 \t4 \t5");
+        	System.out.println();
 		for(int i=0; i<grid.length; i++)
+			System.out.print((row+1)+"\t");
 			for(int j=0; j<grid[i].length; j++)
 			{
 				//The square has been hit and has no ship.
