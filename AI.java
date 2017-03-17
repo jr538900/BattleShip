@@ -9,6 +9,6 @@ public class AI extends UIBoard{
 	//Constructor
 	public AI(){
 		int num1 = r.nextInt(getWidth()+1);
-      int num2 = r.nextInt(getLength()+1);
+      		int num2 = r.nextInt(getLength()+1);
 	}
 }
