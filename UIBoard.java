@@ -48,9 +48,9 @@ public class UIBoard extends Board
 	//This method can get the coordinate that user inputed
 	public static void shoot(int[] shoot){
 		Scanner kb = new Scanner(System.in);
-		System.out.print("Please entry row:");
+		System.out.print("Please enter row:");
 		shoot[0] = kb.nextInt();
-		System.out.print("Please entry column:");
+		System.out.print("Please enter column:");
 		shoot[1] = kb.nextInt();
 	}
 	
