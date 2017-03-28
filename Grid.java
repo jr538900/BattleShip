@@ -1,4 +1,3 @@
-
 public class Grid {
 	private int x,y;
 	public Grid(){}

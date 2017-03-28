@@ -2,13 +2,13 @@
 public class Ship {
 	private int hp;
 	private String name;
-	private int x;
-	private int y;
+	private int lengthX;
+	private int lengthY;
 	public Ship(){}
-	public Ship(int x, int y){
-		this.x=x;
-		this.y=y;
-		hp=x*y;
+	public Ship(int lengthX, int lengthY){
+		this.lengthX=lengthX;
+		this.lengthY=lengthY;
+		hp=lengthX*lengthY;
 	}
 	public int getHp() {
 		return hp;
@@ -22,19 +22,19 @@ public class Ship {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getX() {
-		return x;
+	public int getLengthX() {
+		return lengthX;
 	}
-	public void setX(int x) {
-		this.x = x;
+	public void setLengthX(int lengthX) {
+		this.lengthX = lengthX;
 	}
-	public int getY() {
-		return y;
+	public int getLengthY() {
+		return lengthY;
 	}
-	public void setY(int y) {
-		this.y = y;
+	public void setLengthY(int lengthY) {
+		this.lengthY = lengthY;
 	}
 	public void makeHP(){
-		hp=x*y;
+		hp=lengthX*lengthY;
 	}
 }
