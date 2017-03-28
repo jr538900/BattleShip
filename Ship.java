@@ -35,7 +35,7 @@ public class Ship {
 		this.lengthY = lengthY;
 	}
 	public void makeHP(){
-		hp=lengthX*lengthY;
+		hp = lengthX*lengthY;
 	}
 	public boolean isSunk(){
 		if(hp!=0)
