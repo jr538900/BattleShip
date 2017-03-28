@@ -37,4 +37,10 @@ public class Ship {
 	public void makeHP(){
 		hp=lengthX*lengthY;
 	}
+	public boolean isSunk(){
+		if(hp!=0)
+			return false;
+		else
+			return true;
+	}
 }
