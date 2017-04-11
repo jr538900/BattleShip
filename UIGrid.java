@@ -7,7 +7,6 @@ public class UIGrid extends Grid
 	private char[][] shots;
 	
    //This constructor will create a 8x8 "Board" object, and initilizes all grid squares.
-	//The project instruction request to set a 8x8 "Board" instead of 10x10
 	public UIGrid(int x, int y)
 	{
 		shots = new char[getX()][getY()];
