@@ -55,19 +55,19 @@ public class battleShipGame {
 
     //assign every cell on the board a value of -1, which means those cells are empty
     public static void initBoard(int[][] board){
-        for(int row=0 ; row < 5 ; row++ )
-            for(int column=0 ; column < 5 ; column++ )
+        for(int row=0 ; row < 8 ; row++ )
+            for(int column=0 ; column < 8 ; column++ )
                 board[row][column]=-1;
     }
 
     public static void showBoard(int[][] board){
         //gives 5 tabs and a new line for proper allignment when printing 8x8 board
-        System.out.println("\t1 \t2 \t3 \t4 \t5");
+        System.out.println("\t1 \t2 \t3 \t4 \t5 \t6 \t7 \t8");
         System.out.println();
 
-        for(int row=0 ; row < 5 ; row++ ){
+        for(int row=0 ; row < 8 ; row++ ){
             System.out.print((row+1)+"");
-            for(int column=0 ; column < 5 ; column++ ){
+            for(int column=0 ; column < 8 ; column++ ){
                 if(board[row][column]==-1){
                     //this is just water, no ship, no attempt
                     System.out.print("\t"+"~");
