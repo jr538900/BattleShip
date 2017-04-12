@@ -1,6 +1,7 @@
 //Class where the AI will play it's turn
 import java.util.Random;
-public class AI extends ShipGrid {
+import java.util.Scanner;
+public class AI extends User {
 	
 	Random r = new Random();
 	private int guessX;
@@ -13,18 +14,104 @@ public class AI extends ShipGrid {
 	private int hitX;
 	private int hitY;
 	private int guessDirection;
+	private ShipGrid sGrid;
+	private Grid gGrid;
+	private Ship[] myShips;
+	private boolean lostGame;
 	//Constructor
 	public AI(){
+		gGrid= new Grid(8,8);
+		sGrid = new ShipGrid();
+		lostGame = false;
+		myShips = new Ship[3];
 		hasHit = false;
 		hasDirection = 0;
 		guessDirection = 0;
 	}
-	
+	public String getGuess() {
+		return guess;
+	}
+
+	public void setGuess(String guess) {
+		this.guess = guess;
+	}
+
+	public ShipGrid getsGrid() {
+		return sGrid;
+	}
+
+	public void setsGrid(ShipGrid sGrid) {
+		this.sGrid = sGrid;
+	}
+
+	public Grid getgGrid() {
+		return gGrid;
+	}
+
+	public void setgGrid(Grid gGrid) {
+		this.gGrid = gGrid;
+	}
+
+	public Ship[] getMyShips() {
+		return myShips;
+	}
+
+	public void setMyShips(Ship[] myShips) {
+		this.myShips = myShips;
+	}
+
+	public boolean isLostGame() {
+		return lostGame;
+	}
+
+	public void setLostGame(boolean lostGame) {
+		this.lostGame = lostGame;
+	}
+	public void makeShip(){
+		boolean placed;
+		int x=0,y=0;
+		String d;
+		if((int)(Math.random()*2)>0){
+			d="x";
+		}
+		else{
+			d="y";
+		}
+		int i=0;
+		while(i<3){
+			placed=false;
+			myShips[i] = shipType(d,i);
+			if(myShips[i] == null){}
+			else{
+				while(!placed){
+					x=r.nextInt(8)+1;
+					y=r.nextInt(8)+1;
+					if(sGrid.addShip(x, y, myShips[i])){
+						placed=true;
+						i++;
+					}
+					else{
+						System.out.println("Coordinates not Valid");
+					}
+				}
+			}
+		}
+	}
 	//AI makes a guess depending on previous turns
-	public void makeGuess() {
+	public void makeGuess(User b) {
 		guessX = r.nextInt(8) + 1;
 		guessY = r.nextInt(8) + 1;
-		attack(guessX, guessY);
+		boolean notShot=true;
+		while(notShot){
+			if(b.getsGrid().attack(guessX, guessY)){
+				
+			}
+			else{
+				guessX = r.nextInt(8) + 1;
+				guessY = r.nextInt(8) + 1;
+			}
+		}
+		b.getsGrid().attack(guessX, guessY);
 		
 		/* To be implemented
 		
@@ -77,21 +164,4 @@ public class AI extends ShipGrid {
 		}
 	*/
 	}
-	
-	public int getGuessX() {
-		return guessX;
-	}
-	
-	public int getGuessY() {
-		return guessY;
-	}
-	
-	public void setGuessX(int guessX) {
-		this.guessX = guessX;
-	}
-	
-	public void setGuessY(int guessY) {
-		this.guessY = guessY;
-	}
 }
-

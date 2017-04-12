@@ -37,6 +37,10 @@ public class User {
 	public void setLostGame(boolean lostGame) {
 		this.lostGame = lostGame;
 	}
+	//Class that takes a shot
+	public void pShoot(User b, int x, int y){
+		b.getsGrid().attack(x,y);
+	}
 	//Class that checks if the player has lost the game
 	public void shipsUp(){
 		int ships =0;
