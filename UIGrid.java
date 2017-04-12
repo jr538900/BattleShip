@@ -50,5 +50,29 @@ public class UIGrid extends Grid
 			}
       }   
 		return result;
-	}      
+	}  
+	public static void showBoard(int[][] board){
+        // giving 8 tabs and a new line for proper allignment when printing 8x8 board
+        System.out.println("\t1 \t2 \t3 \t4 \t5 \t6 \t7 \t8");
+        System.out.println();
+
+        for(int row=0 ; row < 8 ; row++ ){
+            System.out.print((row+1)+"");
+            for(int column=0 ; column < 8 ; column++ ){
+                if(board[row][column]==-1){
+                    // this is just water, no ship, no attempt
+                    System.out.print("\t"+"~");
+                }else if(board[row][column]==0){
+                    // this is the position where shots have been fired previously
+                    System.out.print("\t"+"*");
+                }else if(board[row][column]==1){
+                    // this is the position where, a ship/part of a ship, is present
+                    System.out.print("\t"+"X");
+                }
+
+            }
+            System.out.println();
+        }
+
+    }
 }

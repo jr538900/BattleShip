@@ -1,14 +1,30 @@
 //This object will contain the locations of the ships
 public class ShipGrid extends Grid {
 	private Ship[][] grid;  //Board that the ships will be placed on
-   private UIGrid ui;   //Keeps track of the shots fired.
+	private UIGrid ui;   //Keeps track of the shots fired.
+	private int[][] basicGrid;
+	private boolean[][] shots;
 	
 	//Constructor creates this ShipBoard object and sets the coordinates to false (empty of ships).
 	public ShipGrid()
 	{
 		super(8,8);
       grid = new Ship[getX()][getY()];
-      ui = new UIGrid(getX(), getY());		
+      ui = new UIGrid(getX(), getY());
+      basicGrid = new int[getX()][getY()];
+      shots = new boolean[getX()][getY()];
+	}
+	public UIGrid getUi() {
+		return ui;
+	}
+	public void setUi(UIGrid ui) {
+		this.ui = ui;
+	}
+	public int[][] getBasicGrid() {
+		return basicGrid;
+	}
+	public void setBasicGrid(int[][] basicGrid) {
+		this.basicGrid = basicGrid;
 	}
 	public void setGrid(Ship[][] grid)
    {
@@ -26,7 +42,24 @@ public class ShipGrid extends Grid {
    {
       return ui;
    }
-   
+   public void updateBG(){
+	   for(int i=0;i<grid.length;i++){
+		   for(int j=0;j<grid[i].length;j++){
+			   if(grid[i][j]!=null&&shots[i][j]==false){
+				   basicGrid[i][j]=1;
+			   }
+			   else if(grid[i][j]!=null&&shots[i][j]==true){
+				   basicGrid[i][j]=-1;
+			   }
+			   else if(shots[i][j]==true){
+				   basicGrid[i][j]=2;
+			   }
+			   else{
+				   basicGrid[i][j]=0;
+			   }
+		   }
+	   }
+   }
    public boolean addShip(int x, int y, Ship s)
    {
       //Determines whether the ship object was sucessfully added.
@@ -109,8 +142,10 @@ public class ShipGrid extends Grid {
          //The attack is processed successfully.
          done = true;
          //The UI board is updated accordingly.
-         if(grid!=null)
+         if(grid!=null){
             attacked = true;
+            shots[x][y]=true;
+         }
          ui.update(x, y, attacked);
       }
       return done;          
@@ -125,7 +160,7 @@ public class ShipGrid extends Grid {
       //This shot is within bounds.
       if(x>=0 && x<getX() && y>=0 && y<getY())
          //There was not already a shot on this square
-         if(ui.getShots()[x][y].equals('_'))
+         if(ui.getShots()[x][y]==('~'))
             legal = true;
       return legal;     
    }         

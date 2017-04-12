@@ -90,12 +90,11 @@ public class AI extends User {
 						placed=true;
 						i++;
 					}
-					else{
-						System.out.println("Coordinates not Valid");
-					}
+					else{}
 				}
 			}
 		}
+		System.out.println("AI Ships Placed");
 	}
 	//AI makes a guess depending on previous turns
 	public void makeGuess(User b) {

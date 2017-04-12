@@ -15,7 +15,7 @@ public class GUIBattleShip extends Application {
 	private Button[][] board;
 	Font font1 = Font.font("Arial",FontWeight.BOLD,40);
 	Font font2 = Font.font("Arial",FontWeight.BOLD,14);
-	
+	public GUIBattleShip(){}
 	@Override
 	public void start(Stage primaryStage){
 		pane = new GridPane();
@@ -23,7 +23,7 @@ public class GUIBattleShip extends Application {
 		for (int i=0; i<8; i++){
 			for (int j=0; j<8; j++){
 				board[i][j] = new Button();
-				board[i][j].setText("  ");
+				board[i][j].setText(" ");
 				board[i][j].setFont(font1);
 				pane.add(board[i][j],i,j+1);
 				board[i][j].setOnAction(this::processButtonPressed);
@@ -37,7 +37,7 @@ public class GUIBattleShip extends Application {
 		pane.add(exit,2,0);
 		exit.setOnAction(this::processButtonPressed);
 		reset.setOnAction(this::processButtonPressed);
-		pane.setPadding(new Insets(.5,.5,.5,.5));
+		pane.setPadding(new Insets(2,2,2,2));
 		pane.setAlignment(Pos.CENTER);
 		pane.setHgap(5);
 		pane.setVgap(5);
@@ -48,22 +48,10 @@ public class GUIBattleShip extends Application {
 	}
 	public void processButtonPressed(ActionEvent e){
 		if(e.getSource()==reset){
-			pane.getChildren().clear();
 			for (int i=0; i<8; i++){
 				for (int j=0; j<8; j++){
-					board[i][j] = new Button();
-					board[i][j].setText("  ");
-					board[i][j].setFont(font1);
-					pane.add(board[i][j],i,j+1);
-					board[i][j].setOnAction(this::processButtonPressed);
-					reset = new Button("RESET");
-					exit = new Button("EXIT");
-					exit.setFont(font2);
-					reset.setFont(font2);
-					pane.add(reset,0,0);
-					pane.add(exit,2,0);
-					exit.setOnAction(this::processButtonPressed);
-					reset.setOnAction(this::processButtonPressed);
+					board[i][j].setText(" ");
+					board[i][j].setDisable(false);
 				}
 			}
 		}

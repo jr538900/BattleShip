@@ -2,9 +2,6 @@
 
 import java.util.Random;
 import java.util.Scanner;
-import java.ShipGrid;
-import java.Grid;
-import java.Ship;
 
 public class battleShipGame {
 
@@ -12,40 +9,25 @@ public class battleShipGame {
         private String name;
 
         // user will place boats on userShip whereas ai will place boats on aiShip
-        private ShipGrid userShip;
-        private ShipGrid aiShip;
-
-        UIBoard board;
-
+       User p1;
+       AI p2;
         // initialise the ships
-        Ship[] ships = new Ship[3];
 
         // userTurn becomes true whenever the it's the user's turn
         // after user takes the turn, it becomes false
         private boolean userTurn;
 
         // opponent of AI type
-        private AI opponent;
-
         public void setUpGame()
         {
           userTurn = false;
-
-          initShips (ships);
-          // in ShipGrid?
-
-          userShip = new ShipGrid();
-          AIShip = new ShipGrid();
-
+          p1 = new User();
+          p2 = new AI();
           // initialise the board, 2-dimensional array, with 8 rows, 8 columns
           // assign every cell on the board a value of -1 (or any default value), which means those cells
           // just contain water for the timebeing, or are empty in other words
           // this function is present in UIGrid file
-          board = new UIBoard();
-
           // initialise the AI opponent
-          opponent = new AI();
-
           name = "player1";
 
           // initialise shoot, and attempts, shothit to 0
@@ -57,8 +39,15 @@ public class battleShipGame {
 
         public boolean gameIsFinished()
         {
+        	if(p1.isLostGame()){
+        		System.out.print("AI wins");
+        		return true;
+        	}
+        	else if(p2.isLostGame()){
+        		System.out.print("You Win");
+        	}
           // becomes true when 3 of the shots hit, 3 ships sink of either player
-          return (this.shotHit == 3);
+          return false;
         }
 
         // get methods
@@ -68,43 +57,12 @@ public class battleShipGame {
           return this.name;
         }
 
-        public AI getOpponent()
-        {
-          return this.opponent;
-        }
-
-        public ShipGrid getUserShip()
-        {
-          return this.userShip;
-        }
-
-        public ShipGrid getAIShip()
-        {
-          return this.AIShip;
-        }
-
         // set methods
 
         public void setName(String name)
         {
           this.name = name;
         }
-
-        public void setOpponent(AI opponent)
-        {
-          this.opponent = opponent;
-        }
-
-        public void setUserShip(ShipGrid userShip)
-        {
-          this.userShip = userShip;
-        }
-
-        public void setAIShip(ShipGrid AIShip)
-        {
-          this.AIShip = AIShip;
-        }
-
         //constructor
         public battleShipGame()
         {
@@ -112,8 +70,8 @@ public class battleShipGame {
         do{
             // show the Board in each attempts
             // shoot in each attempt, and increment the value of attempts accordingly
-            showBoard(board);
-            shoot(shoot);
+            p2.getsGrid().getUI().toString();
+            p1.;
             attempts++;
 
             // check if our shot hit a ship or not
