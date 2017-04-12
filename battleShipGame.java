@@ -35,7 +35,7 @@ public class battleShipGame {
           // in ShipGrid?
 
           userShip = new ShipGrid();
-          aiShip = new ShipGrid();
+          AIShip = new ShipGrid();
 
           // initialise the board, 2-dimensional array, with 8 rows, 8 columns
           // assign every cell on the board a value of -1 (or any default value), which means those cells
@@ -78,9 +78,9 @@ public class battleShipGame {
           return this.userShip;
         }
 
-        public ShipGrid getAiShip()
+        public ShipGrid getAIShip()
         {
-          return this.aiShip;
+          return this.AIShip;
         }
 
         // set methods
@@ -100,9 +100,9 @@ public class battleShipGame {
           this.userShip = userShip;
         }
 
-        public void setAiShip(ShipGrid aiShip)
+        public void setAIShip(ShipGrid AIShip)
         {
-          this.aiShip = aiShip;
+          this.AIShip = AIShip;
         }
 
         //constructor
@@ -184,7 +184,7 @@ public class battleShipGame {
               int positionX = random.nextInt(5);
               int positionY = random.nextInt(5);
             }
-            while (!userGrid.shipIsValid(positionX, positionY, ships[ship]))
+            while (!userGrid.shipIsValid(positionX, positionY, ships[ship])){
             userGrid.add(positionX, positionY, ships[ship]);
 
             // position the ship on aiGrid only if valid
@@ -193,6 +193,7 @@ public class battleShipGame {
             do {
               int positionX = random.nextInt(5);
               int positionY = random.nextInt(5);
+            }
             }
             while (!aiGrid.shipIsValid(positionX, positionY, ships[ship]))
 
@@ -258,5 +259,4 @@ public class battleShipGame {
             // the shot missed
             board[shoot[0]][shoot[1]]=0;
     }
-}
 }
