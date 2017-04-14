@@ -1,4 +1,3 @@
-
 public class Ship {
 	private int hp;
 	private String name;
@@ -43,4 +42,9 @@ public class Ship {
 		else
 			return true;
 	}
+   public void decreaseHp()
+   {
+      if(hp>0)
+         hp--;
+   }   
 }

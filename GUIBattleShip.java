@@ -102,8 +102,7 @@ public class GUIBattleShip extends Application {
       myShipButtons = new Button[grid.getX()][grid.getY()];
 		
       //Sets the game by adding buttons to theirGridPane and myGridPane.
-      setGame();
-      
+      setGame();      
       
       //The reset and exit buttons.
       reset = new Button("RESET");
@@ -184,14 +183,15 @@ public class GUIBattleShip extends Application {
 							theirShipButtons[i][j].setText("X");
 							theirShipButtons[i][j].setDisable(true);
 							theirShipButtons[i][j].setStyle("-fx-background-color: red");
+                     System.out.println(i + "\t" + j);
                      
-                  //determineWinner();
 						}
 						//the ship is not hit.
 						else{ 
 							theirShipButtons[i][j].setText("O");
 							theirShipButtons[i][j].setDisable(true);
 							theirShipButtons[i][j].setStyle("-fx-background-color: cyan");
+                     System.out.println(i + "\t" + j);
 						}
 					}
                if (e.getSource()==myShipButtons[i][j]){
@@ -265,6 +265,27 @@ public class GUIBattleShip extends Application {
             topText.setText("Attack Ship");                        
          }
    }      
+   
+   //There may be more code to in other classes to determine the winner of the Battleship game.
+   public void determineWinner()
+   {
+      //This determines whether the game is finished.
+      boolean isFinished = true;
+      for(int i=0; i<myShips.size() && isFinished; i++)
+         if(myShips.get(i).getHp()!=0)
+            isFinished = false;
+      if(isFinished)
+      {
+         //The text at the top changes, and all buttons are disabled.
+         topText.setText("GAME OVER");
+         for(int i=0; i<grid.getX(); i++)
+            for(int j=0; j<grid.getY(); j++)
+            {
+               theirShipButtons[i][j].setDisable(true);
+               myShipButtons[i][j].setDisable(false);
+            }
+      }                    
+   }               
               
 	public static void main(String[] args){
 		launch(args);

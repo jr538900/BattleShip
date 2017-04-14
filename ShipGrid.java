@@ -6,8 +6,7 @@ public class ShipGrid extends Grid {
 	//Constructor creates this ShipBoard object and sets the coordinates to false (empty of ships).
 	public ShipGrid()
 	{
-		super(8,8);
-      grid = new Ship[getX()][getY()];
+		grid = new Ship[getX()][getY()];
       ui = new UIGrid(getX(), getY());		
 	}
 	public void setGrid(Ship[][] grid)
@@ -27,6 +26,8 @@ public class ShipGrid extends Grid {
       return ui;
    }
    
+   //This will add a ship to a given set of indices, given an x position, y position, and a
+   //ship, s.  This will use the Java Coordinate system. 
    public boolean addShip(int x, int y, Ship s)
    {
       //Determines whether the ship object was sucessfully added.
@@ -35,16 +36,16 @@ public class ShipGrid extends Grid {
       //This ship object needs to be valid in order to place the ship.
       if(shipIsValid(x, y, s))
       {
-         //If the ship's y dimension is 1, it is horizontally aligned
+         //If the ship's y dimension is 1, it is horizontally aligned,
          //and we proceed across the row.
          if(s.getLengthY()==1)
             for(int i=0; i<s.getLengthX(); i++)
-               grid[i][y] = s;
+               grid[x+i][y] = s;
          //If the ship's x dimension is 1, it is vertically aligned
          //and we proceed up the column.
          else if(s.getLengthX()==1)
             for(int j=0; j<s.getLengthY(); j++)
-               grid[x][j] = s;
+               grid[x][y+j] = s;
          //ship was added successfully.
          added = true;      
       }
@@ -63,12 +64,12 @@ public class ShipGrid extends Grid {
       //The ship is horizontal.
       if(s.getLengthY()==1)
       {
-         //The x, and y - coordinates is within bounds.
-         if(y>=0 && y<getY() && x>=0 && x + s.getLengthX()<=getX())
+         //The x, and y - indices are within bounds.
+         if(0<=x && (x + s.getLengthX()-1)<getX() && 0<=y && y<getY())
          {
-            for(int i=0; i<s.getLengthX(); i++)
+            for(int i=0; (x+i)<s.getLengthX(); i++)
                //The square has a ship on it.
-               if(grid[i][y]!=null)
+               if(grid[x+i][y]!=null)
                   valid = false;
          }
          
@@ -81,11 +82,11 @@ public class ShipGrid extends Grid {
       else if(s.getLengthX()==1)
       {
          //The x and y - coordinates are within bounds.
-         if(x>=0 && x<getX() && y>=0 && y + s.getLengthY()<=getY())
+         if(0<=x && x<getX() && 0<=y && (y + s.getLengthY()-1)<=getY())
          {
-            for(int j=0; j<s.getLengthY(); j++)
+            for(int j=0; (y+j)<s.getLengthY(); j++)
                //This square has a ship on it.
-               if(grid[x][j]!=null)
+               if(grid[x][y+j]!=null)
                   valid = false;
          }
          
@@ -93,14 +94,18 @@ public class ShipGrid extends Grid {
          else
             valid = false;
       }
+      
+      //The ship is neither horizontal nor vertical.
+      else
+         valid = false;
       return valid;      
    }                                 
                    
 	//This will determine whether a given attack will successfully hit a ship.
 	public boolean attack(int x, int y)
 	{
-		//done determines whether the attack was sucessfully evaluated
-      //attacked determines whether the ship was attacked.
+		//done determines whether the attack was sucessfully evaluated (error checking)
+      //attacked determines whether the ship was attacked (part of the game)
       boolean done = false, attacked = false;
       
       //The attack is within bounds and has not already been carried out.
@@ -111,6 +116,9 @@ public class ShipGrid extends Grid {
          //The UI board is updated accordingly.
          if(grid!=null)
             attacked = true;
+         if(attacked)
+            grid[x][y].decreaseHp();   
+         
          ui.update(x, y, attacked);
       }
       return done;          
@@ -123,10 +131,51 @@ public class ShipGrid extends Grid {
       boolean legal = false;
       
       //This shot is within bounds.
-      if(x>=0 && x<getX() && y>=0 && y<getY())
+      if(0<=x && x<getX() && 0<=y && y<getY())
          //There was not already a shot on this square
-         if(ui.getShots()[x][y].equals('_'))
+         if(ui.getShots()[x][y].equals("_"))
             legal = true;
       return legal;     
-   }         
+   }
+   
+   //Thjs tests the class.
+   public String toString()
+   {
+      String result = "";
+      for(int j=0; j<9; j++)
+      {
+        
+         for(int i=-1; i<8; i++)
+         {
+            //Thjs formats the tjtle.
+            if(j==8 && i==-1)
+               result += "  ";               
+            else if(j==8)
+               result += "\t" + (char)(i+65);
+            else if(i==-1)
+               result += j;
+            else
+            {         
+               if(grid[j][i]!=null)
+                  result+= "\ts";
+               else
+                  result+= "\t_";
+            }         
+         }
+         result +="\n";
+      }   
+      return result;   
+   }
+   
+   public static void main(String []args)
+   {
+      ShipGrid sGrid = new ShipGrid();
+      System.out.println(sGrid);
+      if(sGrid.addShip(0,5,new Ship(1,4)))
+         System.out.println("Ship added.");
+      System.out.println(sGrid);
+      if(sGrid.addShip(8,1,new Ship(8,1)))
+         System.out.println("Ship added.");
+      System.out.println(sGrid);   
+   }                                 
 }
