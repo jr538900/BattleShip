@@ -1,6 +1,5 @@
 //Class where the AI will play it's turn
 import java.util.Random;
-import java.util.Scanner;
 public class AI extends User {
 	
 	Random r = new Random();
@@ -8,12 +7,11 @@ public class AI extends User {
 	private int guessY;
 	private String guess;
 	private boolean hasHit;
-	private int lastHitX;
-	private int lastHitY;
 	private int hasDirection;
 	private int hitX;
 	private int hitY;
 	private int guessDirection;
+	private int directionGuess;
 	private ShipGrid sGrid;
 	private Grid gGrid;
 	private Ship[] myShips;
@@ -27,6 +25,7 @@ public class AI extends User {
 		hasHit = false;
 		hasDirection = 0;
 		guessDirection = 0;
+		directionGuess = 1;
 	}
 	public String getGuess() {
 		return guess;
@@ -101,67 +100,88 @@ public class AI extends User {
 	public void makeGuess(User b) {
 		guessX = r.nextInt(8) + 1;
 		guessY = r.nextInt(8) + 1;
-		boolean notShot=true;
-		while(notShot){
-			if(b.getsGrid().attack(guessX, guessY)){
-				
-			}
-			else{
-				guessX = r.nextInt(8) + 1;
-				guessY = r.nextInt(8) + 1;
-			}
-		}
-		b.getsGrid().attack(guessX, guessY);
-		
-		/* To be implemented
 		
 		//If it hasn't hit a ship before it hits a random square
 		if(hasHit == false) {
-			attack(guessX, guessY)
+			b.getsGrid().attack(guessX, guessY);
 		}
 		
 		//If it has hit a ship before and has found the direction it is facing
 		else if(hasHit == true && hasDirection > 0) {
-			hit in the in the direction of hasDirection
-			if(hit nothing on the previous turn) {
-				return to the first hit location
-				hit in the opposite direction until game end
+			if(hasDirection == 1) {
+				//Hits until moving one block at a time until it misses
+				b.getsGrid().attack(hitX + directionGuess, hitY);
+				directionGuess++;
+				//If it misses it goes back to it's starting point and goes the opposite direction until game end
+				if(b.getsGrid().getUI().getShots()[hitX + directionGuess][hitY] == 'O') {
+					directionGuess = 1;
+					hasDirection = 3;
+				}
+			}
+			else if(hasDirection == 2) {
+				b.getsGrid().attack(hitX, hitY - directionGuess);
+				directionGuess++;
+				if(b.getsGrid().getUI().getShots()[hitX][hitY - directionGuess] == 'O') {
+					directionGuess = 1;
+					hasDirection = 4;
+				}
+			}
+			else if(hasDirection == 3) {
+				b.getsGrid().attack(hitX - directionGuess, hitY);
+				directionGuess++;
+				if(b.getsGrid().getUI().getShots()[hitX - directionGuess][hitY] == 'O') {
+					directionGuess = 1;
+					hasDirection = 1;
+				}
+			}
+			else if(hasDirection == 4) {
+				b.getsGrid().attack(hitX, hitY + directionGuess);
+				directionGuess++;
+				if(b.getsGrid().getUI().getShots()[hitX][hitY + directionGuess] == 'O') {
+					directionGuess = 1;
+					hasDirection = 2;
+				}
 			}
 		}
 		
 		//If it has only hit a ship and needs to find the direction the ship is facing
 		//1 - right, 2 - down, 3 - left, 4 - up
-		else if(hasHit == true) {
+		else {
 			guessDirection += 1;
-			 
 			 if(guessDirection == 1) {
-			 	attack(hitX + 1, hitY);
+				 b.getsGrid().attack(hitX + 1, hitY);
+				 if (b.getsGrid().getUI().getShots()[hitX + 1][hitY] == 'X') {
+			 		hasDirection = guessDirection;
+			 	}
 			 }
 			 
 			 else if(guessDirection == 2) {
-			 	attack(hitX, hitY - 1);
+				 b.getsGrid().attack(hitX, hitY - 1);
+				 if (b.getsGrid().getUI().getShots()[hitX][hitY - 1] == 'X') {
+			 		hasDirection = guessDirection;
+			 	}
 			 }
 			 
 			 else if(guessDirection == 3) {
-			 	attack(hitX - 1, hitY);
+				 b.getsGrid().attack(hitX - 1, hitY);
+				 if (b.getsGrid().getUI().getShots()[hitX - 1][hitY] == 'X') {
+			 		hasDirection = guessDirection;
+			 	}
 			 }
 			 
 			 else if(guessDirection == 4) {
-				attack(hitX, hitY + 1);
-			}
-			
-			if(hit in that direction hits a ship) {
-				hasDirection = guessDirection;
+				 b.getsGrid().attack(hitX, hitY + 1);
+				 if (b.getsGrid().getUI().getShots()[hitX][hitY + 1] == 'X') {
+			 		hasDirection = guessDirection;
+			 	}
 			}
 		}
 		
-		//If the location it hit on the last turn was a ship
 		//Remembers the first location it hit and remembers that it has hit a ship at some point
-		if(the location it last guessed was a hit && hasHit == false) {
+		if(b.getsGrid().getUI().getShots()[guessX][guessY] == 'X' && hasHit == false) {
 			hasHit = true;
 			hitX = guessX;
 			hitY = guessY;
 		}
-	*/
 	}
 }
