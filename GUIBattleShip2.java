@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
@@ -20,13 +21,16 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseButton;
+
 import java.util.ArrayList;
 public class GUIBattleShip2 extends Application {
 	
    private HBox top;
    private Text topText;
    private HBox bottom;
-	private Button exit,reset;
+   private Button exit,reset;
    private VBox right;
    //These will have length 2, 3, and 4, respectively.
    private Text theirShipText;
@@ -50,9 +54,9 @@ public class GUIBattleShip2 extends Application {
    private AI p2;
    
    //These are other objects that the program will interact with.
-   /*private Grid grid;
+   private Grid grid;
    private ShipGrid theirGrid;
-   private ShipGrid myGrid;*/
+   private ShipGrid myGrid;
    //This contains the myShips that are not on the user's grid already.
    //Hopefully, this will be in the "BattleShipGame" class.  
    private ArrayList<Ship> myShips;
@@ -64,10 +68,11 @@ public class GUIBattleShip2 extends Application {
    
 	@Override
 	public void start(Stage primaryStage){ 
-      
+      p1 = new User();
+      p2 = new AI();
       grid = p1.getgGrid();
-		myGrid = p1.getSGrid();
-      theirGrid = p2.getSGrid();
+      myGrid = p1.getsGrid();
+      theirGrid = p2.getsGrid();
       
       //This adds myShips that are not yet placed on the board.      
       myShips = new ArrayList<Ship>();
@@ -178,12 +183,12 @@ public class GUIBattleShip2 extends Application {
 					if (e.getSource()==theirShipButtons[i][j]){
 						//if the ship is hit.
                   if(theirGrid.attack(i,j)){
-							theirShipButtons[i][j].setText("X");
-							theirShipButtons[i][j].setDisable(true);
-							theirShipButtons[i][j].setStyle("-fx-background-color: red");
-                     System.out.println(i + "\t" + j);
-                     
-						}
+						theirShipButtons[i][j].setText("X");
+						theirShipButtons[i][j].setDisable(true);
+						theirShipButtons[i][j].setStyle("-fx-background-color: red");
+						System.out.println(i + "\t" + j);
+                     	
+                  }
 						//the ship is not hit.
 						else{ 
 							theirShipButtons[i][j].setText("O");
@@ -196,38 +201,42 @@ public class GUIBattleShip2 extends Application {
                //The user clicked on their shipGrid.
                if (e.getSource()==myShipButtons[i][j]){
                   //Left-click will align the ships horizontally.
-                  /*if(e.getButton()==MouseButton.PRIMARY){
-                     if(!myShips.isEmpty() && myGrid.addShip(i, j, myShips.get(0)))
+                  if(e.getButton()==MouseButton.PRIMARY){
+                     if(!myShips.isEmpty() && p1.addShip(i, j, myShips.get(0))){
                      //System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
-                        for(int k=0; k<myShips.get(0).getLengthX(); k++)                                      
+                        for(int k=0; k<myShips.get(0).getLengthX(); k++){                                    
                            myShipButtons[i+k][j].setStyle("-fx-background-color: GREY");
+                        }
                         myShips.remove(0);
+                     }
                         if(!myShips.isEmpty()) 
                            topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
                         else
                            startGame();   
-                  }*/
+                  }
                   //Right-click will align the ships vertically.
-                  //if(e.getButton()==MouseButton.SECONDARY)
-                     //Changes the ship's dimensions from horizontal to vertical dimensions.
-                     int s = myShips.get(0).getLengthX();
-                     myShips.get(0).setLengthY(s);
-                     myShips.get(0).setLengthX(1);
-                     //Adds this new ship's dimensions to the user's grid.
-                     if(!myShips.isEmpty() && myGrid.addShip(i, j, myShips.get(0))){
-                        for(int k=0; k<myShips.get(0).getLengthY(); k++)                                      
-                           myShipButtons[i][j-k].setStyle("-fx-background-color: GREY");      
-                           
-                        //Removes the ship that was already placed, and adjusts the text. Occurs after the mouse click.
-                        myShips.remove(0);
-                        if(!myShips.isEmpty()) 
-                           topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthY()) + " SHIP");
-                        else
-                           startGame();
-                     }       
-               }                                 
-				}
-			}//end for loop.
+                  /*if (e.getSource()==myShipButtons[i][j]){
+                      //Left-click will align the ships horizontally.
+                      if(e.getButton()==MouseButton.SECONDARY){
+                    	  int s = myShips.get(0).getLengthX();
+                    	  System.out.println(s);
+                    	  myShips.get(0).setLengthX(1);
+                    	  myShips.get(0).setLengthY(s);
+                         if(!myShips.isEmpty() && myGrid.addShip(i, j, myShips.get(0))){
+                         //System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
+                            for(int k=0; k<myShips.get(0).getLengthY(); k++){                                    
+                               myShipButtons[i][j-k].setStyle("-fx-background-color: GREY");
+                            }
+                            myShips.remove(0);
+                         }
+                            if(!myShips.isEmpty()) 
+                               topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
+                            else
+                               startGame();   
+                      }*/
+                  }
+               	}
+				}//end for loop.
       }//end else   
 	}//end method   
    
@@ -240,19 +249,18 @@ public class GUIBattleShip2 extends Application {
          myShipPane.getChildren().clear();
       
       //Resets the aggregated objects.
-      grid = new Grid();
-		myGrid = new ShipGrid();
-      theirGrid = new ShipGrid();
+      p1 = new User();
+      p2 = new AI();
+      grid = p1.getgGrid();
+      myGrid = p1.getsGrid();
+      theirGrid = p2.getsGrid();
       myShips.clear();
       theirShips.clear();
       
       myShips.add(new Ship(4,1));
       myShips.add(new Ship(3,1));
       myShips.add(new Ship(2,1));
-      theirShips.add(new Ship(4,1));
-      theirShips.add(new Ship(3,1));
-      theirShips.add(new Ship(2,1));
-      
+      p2.makeShip();
       //This will store the dimension of the ship that has yet to be placed.
       topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + myShips.get(0).getLengthX() + " SHIP");
       
@@ -293,7 +301,7 @@ public class GUIBattleShip2 extends Application {
                theirShipButtons[i-1][j] = new Button("  ");
                theirShipButtons[i-1][j].setPrefHeight(30);
                theirShipButtons[i-1][j].setPrefWidth(30);
-				   theirShipPane.add(theirShipButtons[i-1][j],i,j);
+               theirShipPane.add(theirShipButtons[i-1][j],i,j);
                theirShipButtons[i-1][j].setOnMouseClicked(this::processButtonPressed);
                theirShipButtons[i-1][j].setDisable(true);            
             
@@ -301,14 +309,16 @@ public class GUIBattleShip2 extends Application {
                myShipButtons[i-1][j] = new Button("  ");
                myShipButtons[i-1][j].setPrefHeight(30);
                myShipButtons[i-1][j].setPrefWidth(30);
-				   myShipPane.add(myShipButtons[i-1][j],i,j);
-				   myShipButtons[i-1][j].setOnMouseClicked(this::processButtonPressed);
+               myShipPane.add(myShipButtons[i-1][j],i,j);
+               myShipButtons[i-1][j].setOnMouseClicked(this::processButtonPressed);
                myShipButtons[i-1][j].setDisable(false);
             }
 			}         
 		}      
    }
-   
+   public void AITurn(){
+	   p2.makeGuess(p1);
+   }
    //This will start the game once the myShips have been set.
    public void startGame(){
       for(int i=0; i<grid.getX(); i++)

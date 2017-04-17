@@ -68,12 +68,15 @@ public class ShipGrid extends Grid {
       if(s.getLengthY()==1)
       {
          //The x, and y - coordinates are within bounds.
+    	  System.out.println(s.getLengthX()+" "+s.getLengthY());;
          if(y>=0 && y<getY() && x>=0 && x + s.getLengthX()<=getX())
          {
-            for(int i=0; i<s.getLengthX(); i++)
+            for(int i=0; i<s.getLengthX(); i++){
                //The square has a ship on it.
-               if(grid[x+i][y]!=null)
+               if(grid[x+i][y]!=null){
                   valid = false;
+               }
+            }
          }
          
          //The ship is out of bounds.
@@ -172,7 +175,10 @@ public class ShipGrid extends Grid {
       if(sGrid.addShip(7,0, new Ship(1,4)))
          System.out.println("Ship Added");
       else
-         System.out.println("Ship NOT Added");   
+         System.out.println("Ship NOT Added");  
+      if(!sGrid.addShip(4, 0,  new Ship(4,1))){
+    	  System.out.println("Error");
+      }
       System.out.println(sGrid);   
    }                                 
 }

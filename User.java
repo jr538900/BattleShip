@@ -6,8 +6,9 @@ public class User {
 	private Grid gGrid;
 	private Ship[] myShips;
 	private boolean lostGame;
+	private static int sIndex;
 	public User(){
-		gGrid= new Grid(8,8);
+		gGrid= new Grid();
 		sGrid = new ShipGrid();
 		lostGame = false;
 		myShips = new Ship[3];
@@ -69,6 +70,14 @@ public class User {
 			return nShip;
 		}
 		return null;
+	}
+	public boolean addShip(int x, int y,Ship s){
+		if(sGrid.addShip(x, y, s)){
+			myShips[sIndex]=s;
+			sIndex++;
+			return true;
+		}
+		return false;
 	}
 	//Class that allows the player to place their ships on the board
 	public void makeShip(){

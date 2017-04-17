@@ -1,3 +1,4 @@
+/*
 //battleShipGame.java
 
 import java.util.Random;
@@ -260,3 +261,4 @@ public class battleShipGame {
             board[shoot[0]][shoot[1]]=0;
     }
 }
+*/
