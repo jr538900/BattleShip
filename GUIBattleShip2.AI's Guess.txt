@@ -1,0 +1,12 @@
+   public void AITurn(){
+	   AIshot shot = p2.randShoot(p1);
+      //x and y are indices.
+      int x = shot.getX()-1;
+      int y = shot.getY()-1;
+      //The shot is not hit.
+      if(!shot.isHit())
+         myShipButtons[x][y].setStyle("-fx-background-color:CYAN");
+      else
+         myShipButtons[x][y].setStyle("-fx-background-color:RED");
+      System.out.println(x + y);         
+   }
