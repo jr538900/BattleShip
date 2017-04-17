@@ -1,0 +1,30 @@
+   public void determineWinner(){
+      //The game user has lost.
+      if(p1.hasLost()){
+         topText.setText("YOU LOSE");
+         top.setStyle("-fx-background-color: RED");
+         
+         //Disables all buttons.
+         for(int i=0; i<grid.getX(); i++)
+            for(int j=0; j<grid.getY(); j++){
+               myShipButtons[i][j].setDisable(true);
+               theirShipButtons[i][j].setDisable(true);
+            }   
+         
+      }
+      //The AI has lost.   
+      else if(p2.hasLost()){
+         topText.setText("CONGRATULATIONS! YOU WIN!");
+         top.setStyle("-fx-background-color: YELLOW");
+         
+         //Disables all buttons.
+         for(int i=0; i<grid.getX(); i++)
+            for(int j=0; j<grid.getY(); j++){
+               myShipButtons[i][j].setDisable(true);
+               theirShipButtons[i][j].setDisable(true);
+            }
+      }
+            
+      else{//Nothing happens.
+      }
+   }
