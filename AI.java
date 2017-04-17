@@ -1,5 +1,6 @@
 //Class where the AI will play it"s turn
 import java.util.Random;
+import java.util.ArrayList;
 public class AI extends User {
 	
 	Random r = new Random();
@@ -12,20 +13,19 @@ public class AI extends User {
 	private int hitY;
 	private int guessDirection;
 	private int directionGuess;
-	private ShipGrid sGrid;
-	private Grid gGrid;
-	private Ship[] myShips;
 	private boolean lostGame;
+	private Ship[] myShips;
+	private ArrayList<AIshot> shots;
 	//Constructor
 	public AI(){
-		gGrid= new Grid();
-		sGrid = new ShipGrid();
+		shots = new ArrayList<AIshot>();
 		lostGame = false;
-		myShips = new Ship[3];
 		hasHit = false;
 		hasDirection = 0;
 		guessDirection = 0;
 		directionGuess = 1;
+		myShips = new Ship[3];
+		
 	}
 	public String getGuess() {
 		return guess;
@@ -34,31 +34,6 @@ public class AI extends User {
 	public void setGuess(String guess) {
 		this.guess = guess;
 	}
-
-	public ShipGrid getsGrid() {
-		return sGrid;
-	}
-
-	public void setsGrid(ShipGrid sGrid) {
-		this.sGrid = sGrid;
-	}
-
-	public Grid getgGrid() {
-		return gGrid;
-	}
-
-	public void setgGrid(Grid gGrid) {
-		this.gGrid = gGrid;
-	}
-
-	public Ship[] getMyShips() {
-		return myShips;
-	}
-
-	public void setMyShips(Ship[] myShips) {
-		this.myShips = myShips;
-	}
-
 	public boolean isLostGame() {
 		return lostGame;
 	}
@@ -85,7 +60,7 @@ public class AI extends User {
 				while(!placed){
 					x=r.nextInt(8)+1;
 					y=r.nextInt(8)+1;
-					if(sGrid.addShip(x, y, myShips[i])){
+					if(addShip(x, y, myShips[i])){
 						placed=true;
 						i++;
 					}
@@ -94,6 +69,29 @@ public class AI extends User {
 					}
 				}
 			}
+		}
+	}
+	//random shots class
+	public void randShoot(User b){
+		boolean repeat = true;
+		int x=0;
+		int y=0;
+		/*while(repeat){
+			x = r.nextInt(8) + 1;
+			y = r.nextInt(8) + 1;
+			for(int i=0;i<shots.size();i++){
+				if(shots.get(i).getX()==x && shots.get(i).getY()==y){	
+				}
+				else{
+					repeat =false;
+				}
+			}
+		}*/
+		if(pShoot(b,x,y)){
+			shots.add(new AIshot(x,y,true));
+		}
+		else{
+			shots.add(new AIshot(x,y,false));
 		}
 	}
 	//AI makes a guess depending on previous turns

@@ -106,21 +106,20 @@ public class ShipGrid extends Grid {
 	//This will determine whether a given attack will successfully hit a ship.
 	public boolean attack(int x, int y)
 	{
-		//done determines whether the attack was sucessfully evaluated
       //attacked determines whether the ship was attacked.
-      boolean done = false, attacked = false;
+		boolean attacked = false;
       
       //The attack is within bounds and has not already been carried out.
       if(attemptIsLegal(x, y))
       {
-         //The attack is processed successfully.
-         done = true;
          //The UI board is updated accordingly.
-         if(grid!=null)
+         if(grid[x][y]!=null){
             attacked = true;
+            grid[x][y].decreaseHp();
+         }
          ui.update(x, y, attacked);
       }
-      return done;          
+      return attacked;          
 	}
    
    //This will determine whether the attack is within bounds and not already taken.
