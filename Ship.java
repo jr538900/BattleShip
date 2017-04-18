@@ -46,5 +46,9 @@ public class Ship {
    {
       if(hp>0)
          hp--;
-   }   
+   }
+   public String toString()
+   {
+      return ("lengthX " + lengthX + "; lengthY " + lengthY);
+   }      
 }

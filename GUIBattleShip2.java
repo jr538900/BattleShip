@@ -57,10 +57,12 @@ public class GUIBattleShip2 extends Application {
    private Grid grid;
    private ShipGrid theirGrid;
    private ShipGrid myGrid;
+   //Stores the index of the user's ships.
+   private int index;
    //This contains the myShips that are not on the user's grid already.
    //Hopefully, this will be in the "BattleShipGame" class.  
    private ArrayList<Ship> myShips;
-   private ArrayList<Ship> theirShips;
+   //private ArrayList<Ship> theirShips;
    
    private 
    Font font1 = Font.font("Arial",FontWeight.BOLD,40);
@@ -76,7 +78,7 @@ public class GUIBattleShip2 extends Application {
       
       //This adds myShips that are not yet placed on the board.      
       myShips = new ArrayList<Ship>();
-      theirShips = new ArrayList<Ship>();
+      //theirShips = p2.getShip2();
                
       //The text in the pane.      
       topText = new Text();
@@ -182,61 +184,76 @@ public class GUIBattleShip2 extends Application {
 				for (int j=0; j<grid.getY(); j++){
 					if (e.getSource()==theirShipButtons[i][j]){
 						//if the ship is hit.
-                  if(theirGrid.attack(i,j)){
-						theirShipButtons[i][j].setText("X");
-						theirShipButtons[i][j].setDisable(true);
-						theirShipButtons[i][j].setStyle("-fx-background-color: red");
-						System.out.println(i + "\t" + j);
-                     	
-                  }
+						if(p1.pShoot(p2,i,j)){
+							theirShipButtons[i][j].setDisable(true);
+							theirShipButtons[i][j].setStyle("-fx-background-color: red");
+							System.out.println(i + "\t" + j);
+							determineWinner();
+							AITurn();
+							determineWinner();
+							
+						}
 						//the ship is not hit.
 						else{ 
-							theirShipButtons[i][j].setText("O");
 							theirShipButtons[i][j].setDisable(true);
 							theirShipButtons[i][j].setStyle("-fx-background-color: cyan");
-                     System.out.println(i + "\t" + j);
+							System.out.println(i + "\t" + j);
+							determineWinner();
+							AITurn();
+							determineWinner();
 						}
+						
 					}
                
-               //The user clicked on their shipGrid.
-               if (e.getSource()==myShipButtons[i][j]){
+					//The user clicked on their shipGrid.
+					if (e.getSource()==myShipButtons[i][j]){
+						
                   //Left-click will align the ships horizontally.
-                  if(e.getButton()==MouseButton.PRIMARY){
+						if(e.getButton()==MouseButton.PRIMARY){
+							int s = myShips.get(0).getLengthY();
+                     if(s>1){
+                        myShips.get(0).setLengthX(s);
+                        myShips.get(0).setLengthY(1);
+                     }
                      if(!myShips.isEmpty() && p1.addShip(i, j, myShips.get(0))){
+								//System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
+								for(int k=0; k<myShips.get(0).getLengthX(); k++){                                    
+									myShipButtons[i+k][j].setStyle("-fx-background-color: GREY");
+								}
+								myShips.remove(0);
+							}
+							if(!myShips.isEmpty()){
+								topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
+                     }   
+							else{
+								startGame();
+                     }      
+						}
+					
+                  //Right-click will align the ships horizontally.
+                  if(e.getButton()==MouseButton.SECONDARY){
+                     int s = myShips.get(0).getLengthX();
+                     if(s>1){
+                        myShips.get(0).setLengthX(1);
+                        myShips.get(0).setLengthY(s);
+                     }   
+                     boolean added = myGrid.addShip(i, j, myShips.get(0));
+                     if(!myShips.isEmpty() && added){
                      //System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
-                        for(int k=0; k<myShips.get(0).getLengthX(); k++){                                    
-                           myShipButtons[i+k][j].setStyle("-fx-background-color: GREY");
+                        for(int k=0; k<myShips.get(0).getLengthY(); k++){                                    
+                           myShipButtons[i][j-k].setStyle("-fx-background-color: GREY");
                         }
                         myShips.remove(0);
-                     }
-                        if(!myShips.isEmpty()) 
-                           topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
-                        else
-                           startGame();   
-                  }
-                  //Right-click will align the ships vertically.
-                  /*if (e.getSource()==myShipButtons[i][j]){
-                      //Left-click will align the ships horizontally.
-                      if(e.getButton()==MouseButton.SECONDARY){
-                    	  int s = myShips.get(0).getLengthX();
-                    	  System.out.println(s);
-                    	  myShips.get(0).setLengthX(1);
-                    	  myShips.get(0).setLengthY(s);
-                         if(!myShips.isEmpty() && myGrid.addShip(i, j, myShips.get(0))){
-                         //System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
-                            for(int k=0; k<myShips.get(0).getLengthY(); k++){                                    
-                               myShipButtons[i][j-k].setStyle("-fx-background-color: GREY");
-                            }
-                            myShips.remove(0);
-                         }
-                            if(!myShips.isEmpty()) 
-                               topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
-                            else
-                               startGame();   
-                      }*/
-                  }
-               	}
-				}//end for loop.
+                     }                            
+                     
+                     if(!myShips.isEmpty()) 
+                     topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthY()) + " SHIP");
+                     else
+                     startGame();   
+                  }                  
+               }
+				}//end inner for loop.
+         }//end outer for loop.   
       }//end else   
 	}//end method   
    
@@ -255,14 +272,16 @@ public class GUIBattleShip2 extends Application {
       myGrid = p1.getsGrid();
       theirGrid = p2.getsGrid();
       myShips.clear();
-      theirShips.clear();
+      //theirShips.clear();
+      index = 0;
       
-      myShips.add(new Ship(4,1));
-      myShips.add(new Ship(3,1));
-      myShips.add(new Ship(2,1));
+      for(int k=0; k<p1.getShip1().length; k++){
+         myShips.add(p1.getShip1()[k]);
+      }
       p2.makeShip();
       //This will store the dimension of the ship that has yet to be placed.
       topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + myShips.get(0).getLengthX() + " SHIP");
+      top.setStyle("-fx-background-color:BLUE");
       
       //Adds buttons for their ship, and my ship.      
       for (int i=0; i<grid.getX()+1; i++){
@@ -317,8 +336,20 @@ public class GUIBattleShip2 extends Application {
 		}      
    }
    public void AITurn(){
-	   p2.makeGuess(p1);
+	   AIshot shot = p2.randShoot(p1);
+      //x and y are indices.
+      int x = shot.getX();
+      int y = shot.getY();
+      //The shot does not land on a ship object.
+      if(!shot.isHit()){         
+         myShipButtons[x][y].setStyle("-fx-background-color:CYAN");
+      }   
+      else{
+         myShipButtons[x][y].setStyle("-fx-background-color:RED");
+      }   
+      System.out.println(x + " " + y);         
    }
+   
    //This will start the game once the myShips have been set.
    public void startGame(){
       for(int i=0; i<grid.getX(); i++)
@@ -334,25 +365,36 @@ public class GUIBattleShip2 extends Application {
    }      
    
    //There may be more code to in other classes to determine the winner of the Battleship game.
-   public void determineWinner()
-   {
-      //This determines whether the game is finished.
-      boolean isFinished = true;
-      for(int i=0; i<myShips.size() && isFinished; i++)
-         if(myShips.get(i).getHp()!=0)
-            isFinished = false;
-      if(isFinished)
-      {
-         //The text at the top changes, and all buttons are disabled.
-         topText.setText("GAME OVER");
-         for(int i=0; i<grid.getX(); i++)
-            for(int j=0; j<grid.getY(); j++)
-            {
-               theirShipButtons[i][j].setDisable(true);
-               myShipButtons[i][j].setDisable(false);
-            }
-      }                    
-   }               
+   public void determineWinner(){
+	      //The game user has lost.
+	      if(p1.hasLost()){
+	         topText.setText("YOU LOSE");
+	         top.setStyle("-fx-background-color: RED");
+	         
+	         //Disables all buttons.
+	         for(int i=0; i<grid.getX(); i++)
+	            for(int j=0; j<grid.getY(); j++){
+	               myShipButtons[i][j].setDisable(true);
+	               theirShipButtons[i][j].setDisable(true);
+	            }         
+	      }
+         
+	      //The AI has lost.   
+	      else if(p2.hasLost()){
+	         topText.setText("CONGRATULATIONS! YOU WIN!");
+	         top.setStyle("-fx-background-color: YELLOW");
+	         
+	         //Disables all buttons.
+	         for(int i=0; i<grid.getX(); i++)
+	            for(int j=0; j<grid.getY(); j++){
+	               myShipButtons[i][j].setDisable(true);
+	               theirShipButtons[i][j].setDisable(true);
+	            }
+	      }
+	            
+	      else{//Nothing happens.
+	      }
+	   }              
               
 	public static void main(String[] args){
 		launch(args);

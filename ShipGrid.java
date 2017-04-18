@@ -48,7 +48,7 @@ public class ShipGrid extends Grid {
          //and we proceed up the column.
          else if(s.getLengthX()==1)
             for(int j=0; j<s.getLengthY(); j++)
-               grid[x][y+j] = s;
+               grid[x][y-j] = s;
          //ship was added successfully.
          added = true;      
       }
@@ -68,8 +68,7 @@ public class ShipGrid extends Grid {
       if(s.getLengthY()==1)
       {
          //The x, and y - coordinates are within bounds.
-    	  System.out.println(s.getLengthX()+" "+s.getLengthY());;
-         if(y>=0 && y<getY() && x>=0 && x + s.getLengthX()<=getX())
+    	   if(y>=0 && y<getY() && x>=0 && x + s.getLengthX()<=getX())
          {
             for(int i=0; i<s.getLengthX(); i++){
                //The square has a ship on it.
@@ -88,11 +87,11 @@ public class ShipGrid extends Grid {
       else if(s.getLengthX()==1)
       {
          //The x and y - coordinates are within bounds.
-         if(x>=0 && x<getX() && y>=0 && y + s.getLengthY()<=getY())
+         if(x>=0 && x<getX() && y<=getY() && y - (s.getLengthY()-1)>=0)
          {
             for(int j=0; j<s.getLengthY(); j++)
                //This square has a ship on it.
-               if(grid[x][y+j]!=null)
+               if(grid[x][y-j]!=null)
                   valid = false;
          }
          
@@ -106,21 +105,23 @@ public class ShipGrid extends Grid {
 	//This will determine whether a given attack will successfully hit a ship.
 	public boolean attack(int x, int y)
 	{
-		//done determines whether the attack was sucessfully evaluated
-      //attacked determines whether the ship was attacked.
-      boolean done = false, attacked = false;
+      //attacked determines whether the ship was attacked successfully.
+		boolean attacked = false;
       
       //The attack is within bounds and has not already been carried out.
       if(attemptIsLegal(x, y))
       {
-         //The attack is processed successfully.
-         done = true;
          //The UI board is updated accordingly.
-         if(grid!=null)
+         if(grid[x][y]!=null){
             attacked = true;
+            grid[x][y].decreaseHp();
+         }
          ui.update(x, y, attacked);
       }
-      return done;          
+      if(ui.usedUpShot(x, y)){
+         attacked = false;
+      }   
+      return attacked;          
 	}
    
    //This will determine whether the attack is within bounds and not already taken.
@@ -172,13 +173,12 @@ public class ShipGrid extends Grid {
    public static void main(String []args)
    {
       ShipGrid sGrid = new ShipGrid();
-      if(sGrid.addShip(7,0, new Ship(1,4)))
-         System.out.println("Ship Added");
-      else
-         System.out.println("Ship NOT Added");  
-      if(!sGrid.addShip(4, 0,  new Ship(4,1))){
+      if(!sGrid.addShip(2,3, new Ship(1,4)))
+         System.out.println("Error");
+        
+      if(!sGrid.addShip(1, 3,  new Ship(4,1)))
     	  System.out.println("Error");
-      }
+      
       System.out.println(sGrid);   
    }                                 
 }
