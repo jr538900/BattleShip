@@ -1,10 +1,11 @@
 public class Ship {
 	private int hp;
-	private String name;
 	private int lengthX;
 	private int lengthY;
-	public Ship(){}
-	public Ship(int lengthX, int lengthY){
+   
+   //private String name;  
+	//public Ship(){}
+   public Ship(int lengthX, int lengthY){
 		this.lengthX=lengthX;
 		this.lengthY=lengthY;
 		hp=lengthX*lengthY;
@@ -15,12 +16,12 @@ public class Ship {
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
-	public String getName() {
+	/*public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
+	}*/
 	public int getLengthX() {
 		return lengthX;
 	}

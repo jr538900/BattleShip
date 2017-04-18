@@ -174,17 +174,5 @@ public class ShipGrid extends Grid {
          result += "\n";        
       }
       return result;                              
-   }
-   
-   public static void main(String []args)
-   {
-      ShipGrid sGrid = new ShipGrid();
-      if(!sGrid.addShip(2,3, new Ship(1,4)))
-         System.out.println("Error");
-        
-      if(!sGrid.addShip(1, 3,  new Ship(4,1)))
-    	  System.out.println("Error");
-      
-      System.out.println(sGrid);   
-   }                                 
+   }                               
 }

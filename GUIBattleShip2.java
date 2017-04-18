@@ -24,6 +24,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseButton;
 
+//For sound effects.
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import java.util.ArrayList;
 public class GUIBattleShip2 extends Application {
 	
@@ -48,7 +53,7 @@ public class GUIBattleShip2 extends Application {
    private Button[][] theirShipButtons;
    private Button[][] myShipButtons;
       
-   private BorderPane border;
+   private BorderPane border;  
    
    private User p1;
    private AI p2;
@@ -64,9 +69,12 @@ public class GUIBattleShip2 extends Application {
    private ArrayList<Ship> myShips;
    //private ArrayList<Ship> theirShips;
    
-   private 
-   Font font1 = Font.font("Arial",FontWeight.BOLD,40);
-	Font font2 = Font.font("Arial",FontWeight.BOLD,20);
+   private Font font1 = Font.font("Arial",FontWeight.BOLD,40);
+	private Font font2 = Font.font("Arial",FontWeight.BOLD,20);
+   
+   //Sound effects for the game.
+   private String bombURL, splashURL;
+   private AudioClip bomb, splash;
    
 	@Override
 	public void start(Stage primaryStage){ 
@@ -79,7 +87,14 @@ public class GUIBattleShip2 extends Application {
       //This adds myShips that are not yet placed on the board.      
       myShips = new ArrayList<Ship>();
       //theirShips = p2.getShip2();
-               
+      
+      //Will provide sound effects for a the game ending.
+      bombURL = "https://www.soundjay.com/mechanical/explosion-01.wav";
+      bomb = new AudioClip(bombURL);
+      //Provides sound effects for the splash.
+      splashURL = "https://www.soundjay.com/nature/sounds/water-splash-3.mp3";
+      splash = new AudioClip(splashURL);
+              
       //The text in the pane.      
       topText = new Text();
       topText.setFont(font1);      
@@ -170,6 +185,12 @@ public class GUIBattleShip2 extends Application {
 		primaryStage.show();    
 	}
 	public void processButtonPressed(MouseEvent e){
+      
+      if(bomb.isPlaying())
+         bomb.stop();      
+      if(splash.isPlaying())
+         splash.stop();   
+      
 		//Pushes the "reset" button.
       if(e.getSource()==reset){         
          setGame();        
@@ -187,6 +208,7 @@ public class GUIBattleShip2 extends Application {
 						if(p1.pShoot(p2,i,j)){
 							theirShipButtons[i][j].setDisable(true);
 							theirShipButtons[i][j].setStyle("-fx-background-color: red");
+                     bomb.play();
 							System.out.println(i + "\t" + j);
 							determineWinner();
 							AITurn();
@@ -219,10 +241,14 @@ public class GUIBattleShip2 extends Application {
 								for(int k=0; k<myShips.get(0).getLengthX(); k++){                                    
 									myShipButtons[i+k][j].setStyle("-fx-background-color: GREY");
 								}
-								myShips.remove(0);
+                        myShips.remove(0);
 							}
+                     
 							if(!myShips.isEmpty()){
-								topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
+                        if(myShips.get(0).getLengthX()>1)
+								   topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
+                        else
+                           topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthY()) + " SHIP");    
                      }   
 							else{
 								startGame();
@@ -241,14 +267,19 @@ public class GUIBattleShip2 extends Application {
                      //System.out.println(dim>=2 && myGrid.addShip(j, i, myShips.get(0)));
                         for(int k=0; k<myShips.get(0).getLengthY(); k++){                                    
                            myShipButtons[i][j-k].setStyle("-fx-background-color: GREY");
-                        }
+                        }                        
                         myShips.remove(0);
+                        
                      }                            
                      
-                     if(!myShips.isEmpty()) 
-                     topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthY()) + " SHIP");
+                     if(!myShips.isEmpty()){
+                        if(myShips.get(0).getLengthX()>1)
+								   topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthX()) + " SHIP");
+                        else
+                           topText.setText("WELCOME TO BATTLESHIP\nCLICK ON YOUR GRID TO PLACE YOUR 1 X " + (myShips.get(0).getLengthY()) + " SHIP");
+                     }   
                      else
-                     startGame();   
+                        startGame();   
                   }                  
                }
 				}//end inner for loop.
@@ -258,6 +289,12 @@ public class GUIBattleShip2 extends Application {
    
    //This will reset the game.
    public void setGame(){
+      
+      if(bomb.isPlaying())
+         bomb.stop();      
+      if(splash.isPlaying())
+         splash.stop();   
+      
       //This clears the panes and adds new buttons to the pane.
       if(!theirShipPane.getChildren().isEmpty())
          theirShipPane.getChildren().clear();
@@ -342,9 +379,11 @@ public class GUIBattleShip2 extends Application {
       //The shot does not land on a ship object.
       if(!shot.isHit()){
          myShipButtons[x][y].setStyle("-fx-background-color:CYAN");
+         splash.play();
       }   
       else{
          myShipButtons[x][y].setStyle("-fx-background-color:RED");
+         bomb.play();      
       }   
       System.out.println(x + " " + y);         
    }

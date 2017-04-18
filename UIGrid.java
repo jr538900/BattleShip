@@ -36,10 +36,5 @@ public class UIGrid extends Grid
       }   
 		else
 			shots[x][y] = "o";
-	}
-   
-   //This method will determine whether a square has been hit.
-   public boolean usedUpShot(int x, int y){
-      return shots[x][y].equalsIgnoreCase("x");
-   }        
+	}        
 }

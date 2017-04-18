@@ -112,7 +112,7 @@ public class AI extends User {
 			boolean alreadyHit = true;
 			while(alreadyHit) {
 				//Finds if the location has already been hit. If yes then find a new location.
-				if(b.getsGrid().getUI().usedUpShot(guessX, guessY)) {
+				if(!b.getsGrid().getUI().getShots()[guessX][guessY].equals("_")) {
 					guessX = r.nextInt(8) + 1;
 					guessY = r.nextInt(8) + 1;
 				}
@@ -128,7 +128,7 @@ public class AI extends User {
 			if(hasDirection == 1) {
 				//Hits until moving one block at a time until it misses
 				b.getsGrid().attack(hitX + directionGuess, hitY);
-				//If it misses it goes back to it"s starting point and goes the opposite direction until game end
+				//If it misses it goes back to it's starting point and goes the opposite direction until game end
 				if(b.getsGrid().getUI().getShots()[hitX + directionGuess][hitY].equals("O")) {
 					directionGuess = 0;
 					hasDirection = 3;
