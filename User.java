@@ -50,6 +50,7 @@ public class User {
 	//Class that takes a shot
 	public boolean pShoot(User b, int x, int y){
 		//System.out.println(b.getsGrid());
+      //System.out.println("We are attacking at: " + x + " " + y);
       return(b.getsGrid().attack(x,y));      
 	}
 	//Class that checks if the player has lost the game

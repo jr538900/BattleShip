@@ -30,10 +30,12 @@ public class UIGrid extends Grid
 	//This method will be called by the ShipBoard class.
 	public void update(int x, int y, boolean hit)
 	{
-		if(hit)
+		if(hit){
+         //System.out.println("UIGrid HIT.");
 			shots[x][y] = "x";
+      }   
 		else
-			shots[x][y] = "x";
+			shots[x][y] = "o";
 	}
    
    //This method will determine whether a square has been hit.

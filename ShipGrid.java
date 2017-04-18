@@ -112,30 +112,36 @@ public class ShipGrid extends Grid {
       if(attemptIsLegal(x, y))
       {
          //The UI board is updated accordingly.
-         if(grid[x][y]!=null){
+         if(grid[x][y]!=null){            
             attacked = true;
             grid[x][y].decreaseHp();
+            //System.out.println("Attacked is " + attacked + " this means hit.");
          }
          ui.update(x, y, attacked);
       }
-      if(ui.usedUpShot(x, y)){
-         attacked = false;
-      }   
+      //System.out.println("Attacked is still " + attacked);
+      //if(ui.usedUpShot(x, y)){
+         //attacked = false;
+      //}   
+      //System.out.println("Attacked is now " + attacked + " before returning from \"attack\"");
       return attacked;          
 	}
    
    //This will determine whether the attack is within bounds and not already taken.
    public boolean attemptIsLegal(int x, int y)
    {
+      
       //Determines whether the move is legal.
       boolean legal = false;
       
       //This shot is within bounds.
       if(x>=0 && x<getX() && y>=0 && y<getY())
          //There was not already a shot on this square
+         System.out.println(ui.getShots()[x][y]);
          if(ui.getShots()[x][y].equals("_"))
             legal = true;
-      return legal;     
+                  
+      return legal;          
    }
    
    //This tests the class.

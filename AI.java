@@ -27,7 +27,10 @@ public class AI extends User {
 		myShips = new Ship[3];
 		
 	}
-	public String getGuess() {
+   
+
+	
+   public String getGuess() {
 		return guess;
 	}
 
@@ -81,17 +84,19 @@ public class AI extends User {
 			x = (int)(Math.random()*8);
 			y = (int)(Math.random()*8);
          repeat = false;
-				for(int i=0;i<shots.size() && !repeat;i++){
+				for(int i=0; i<shots.size() && !repeat;i++){
 					if(shots.get(i).getX()==x && shots.get(i).getY()==y){
 						repeat = true;
 					}					
 				}			
-		}
-		if(pShoot(b,x,y)){
-			shots.add(new AIshot(x,y,true));
+		}  
+         
+      boolean boo = pShoot(b,x,y);      
+		if(boo){                  
+         shots.add(new AIshot(x,y,true));
 			return shots.get(shots.size()-1);
 		}
-		else{
+		else{         
 			shots.add(new AIshot(x,y,false));
 			return shots.get(shots.size()-1);
 		}

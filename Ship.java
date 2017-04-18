@@ -49,6 +49,6 @@ public class Ship {
    }
    public String toString()
    {
-      return ("lengthX " + lengthX + "; lengthY " + lengthY);
+      return ("lengthX " + lengthX + "-lengthY " + lengthY);
    }      
 }

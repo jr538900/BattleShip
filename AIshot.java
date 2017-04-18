@@ -26,6 +26,6 @@ public class AIshot {
 		this.y = y;
 	}
 	public String toString(){
-		return "("+x+", "+y+")";
+		return " ("+x+", "+y+") "+hit;
 	}
 }

@@ -201,8 +201,7 @@ public class GUIBattleShip2 extends Application {
 							determineWinner();
 							AITurn();
 							determineWinner();
-						}
-						
+						}						
 					}
                
 					//The user clicked on their shipGrid.
@@ -341,7 +340,7 @@ public class GUIBattleShip2 extends Application {
       int x = shot.getX();
       int y = shot.getY();
       //The shot does not land on a ship object.
-      if(!shot.isHit()){         
+      if(!shot.isHit()){
          myShipButtons[x][y].setStyle("-fx-background-color:CYAN");
       }   
       else{
@@ -381,7 +380,7 @@ public class GUIBattleShip2 extends Application {
          
 	      //The AI has lost.   
 	      else if(p2.hasLost()){
-	         topText.setText("CONGRATULATIONS! YOU WIN!");
+	         topText.setText("YOU SUNK MY BATTLESHIPS!");
 	         top.setStyle("-fx-background-color: YELLOW");
 	         
 	         //Disables all buttons.
@@ -394,7 +393,7 @@ public class GUIBattleShip2 extends Application {
 	            
 	      else{//Nothing happens.
 	      }
-	   }              
+	}              
               
 	public static void main(String[] args){
 		launch(args);
